@@ -1,0 +1,14 @@
+{
+    "account1": {
+        "publicKey": "<complete>",
+        "secret": "<complete>"
+    },
+    "account2": {
+        "publicKey": "<complete>",
+        "secret": "<complete>"
+    },
+    "account3": {
+        "publicKey": "<complete>",
+        "secret": "<complete>"
+    }
+}
