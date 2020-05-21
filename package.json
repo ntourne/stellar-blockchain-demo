@@ -1,15 +1,18 @@
 {
-  "name": "stellar-demo",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "node-fetch": "^2.6.0",
-    "stellar-sdk": "^5.0.2"
-  }
+    "name": "stellar-blockchain-demo",
+    "version": "1.0.0",
+    "description": "Just a couple of scripts to interact with Stellar network using stellar-sdk.",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Nicolas Tourne <ntourne@beerealit.com>",
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ntourne/stellar-blockchain-demo.git"
+    },
+    "dependencies": {
+        "node-fetch": "^2.6.0",
+        "stellar-sdk": "^5.0.2"
+    }
 }
