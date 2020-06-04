@@ -1,32 +1,52 @@
 const StellarSdk = require("stellar-sdk");
-const fetch = require("node-fetch");
+const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
 
-// Create a new keypair.
-const pair = StellarSdk.Keypair.random();
-
-
+const { account1 } = require('../accounts.json');
+const sourceKeys = StellarSdk.Keypair.fromSecret(account1.secret);
 
 /**
- * Create an account in TestNet
+ * Create a Stellar account using another account as master
  */
-async function createTestAccount() {
+async function createAccountUsingMaster() {
+
     try {
 
-        console.log('Funding a new account on the test network (takes a few seconds)...');
-    
-        // Create account in TestNet using friendbot
-        const response = await fetch(`https://friendbot.stellar.org?addr=${pair.publicKey()}`);
-        const data = await response.json();
-        console.log('data', data);
+        console.log(`Load account used as master (${account1.publicKey})`)
 
-        console.log('publicKey: ' + pair.publicKey());
-        console.log('secret: ' + pair.secret());
+        // Load master account
+        const masterAccount = await server.loadAccount(account1.publicKey);
+        
+        const fee = await server.fetchBaseFee();
+        
+        // Create key pair for the new account
+        const newPair = StellarSdk.Keypair.random();
+        console.log('Generate new key pairs');
+        console.log(`publicKey: ${newPair.publicKey()}`);
+        console.log(`secret: ${newPair.secret()}`);
+        
+        // Create transaction
+        const transaction = new StellarSdk.TransactionBuilder(masterAccount, { fee, networkPassphrase: StellarSdk.Networks.TESTNET })
+            .addOperation(StellarSdk.Operation.createAccount({
+                source: masterAccount.account_id,
+                destination: newPair.publicKey(),
+                startingBalance: "500" 
+            }))
+            .setTimeout(30)
+            .build();
 
-        console.log('Success! You have a funded Testnet account');
+        // Sign the transaction
+        transaction.sign(sourceKeys);
 
-    } catch (e) {
-        console.error("Oh no! Something went wrong:", e);
+        // Submit transaction to the network
+        const response = await server.submitTransaction(transaction);
+
+        console.log(response);
+
     }
+    catch(err) {
+        console.error(err);
+    }
+
 }
 
-createTestAccount();
+createAccountUsingMaster();

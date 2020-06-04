@@ -50,7 +50,7 @@ async function sendPayment() {
 
     }
     catch(e) {
-        console.log(e);
+        console.error(e);
     }
 
 }
