@@ -12,7 +12,7 @@
         "url": "https://github.com/ntourne/stellar-blockchain-demo.git"
     },
     "dependencies": {
-        "node-fetch": "^2.6.0",
+        "node-fetch": "^2.6.1",
         "stellar-sdk": "^5.0.2"
     }
 }
